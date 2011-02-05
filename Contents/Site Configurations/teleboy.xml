@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<site site="http://www\.teleboy\.ch.*"
+      plugin="http://www.teleboy.ch/tv/player/includes/flash/flashplayer_brenner.swf"
+      initialState="playing"
+      version="1.0">
+  <seekbar type="simple" />
+  <state name="playing">
+    <event>
+ 	  <condition>
+        <command name="pause" />
+ 	  </condition>
+ 	  <action>
+        <click x="150" y="380" />
+        <goto state="paused" />
+ 	  </action>
+    </event>
+  </state>
+  <state name="paused">
+    <event>
+ 	  <condition>
+        <command name="play" />
+ 	  </condition>
+ 	  <action>
+        <click x="150" y="380" />
+        <goto state="playing" />
+ 	  </action>
+    </event>
+  </state>
+</site>

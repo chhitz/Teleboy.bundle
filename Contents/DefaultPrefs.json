@@ -1,0 +1,45 @@
+[
+    {
+        "id":           "username",
+        "label":        "Your Username",
+        "type":         "text",
+        "default":      ""
+    },
+    {
+        "id":           "password",
+        "label":        "Your Password",
+        "type":         "text",
+        "option":       "hidden",
+        "default":      ""
+    },
+    {
+        "id":           "my_channels",
+        "label":        "My channels",
+        "type":         "bool",
+        "default":      "true"
+    },
+    {
+        "id":           "channels_de",
+        "label":        "German channels",
+        "type":         "bool",
+        "default":      "false"
+    },
+    {
+        "id":           "channels_fr",
+        "label":        "French channels",
+        "type":         "bool",
+        "default":      "false"
+    },
+    {
+        "id":           "channels_it",
+        "label":        "Italian channels",
+        "type":         "bool",
+        "default":      "false"
+    },
+    {
+        "id":           "channels_en",
+        "label":        "English channels",
+        "type":         "bool",
+        "default":      "false"
+    }
+]
