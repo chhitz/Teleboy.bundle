@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<site site="http://www\.teleboy\.ch.*"
-      plugin="http://www.teleboy.ch/tv/player/includes/flash/flashplayer_brenner.swf"
-      initialState="playing"
+<site site="http://.*\.teleboy\.ch.*"
+      plugin="http://.*\.teleboy\.ch.*player.*\.swf"
+      identifier="com.plexapp.plugins.teleboy"
+      initialState="login"
       version="1.0">
-  <seekbar type="simple" />
-  <state name="playing">
-    <event>
- 	  <condition>
-        <command name="pause" />
- 	  </condition>
- 	  <action>
-        <click x="150" y="380" />
-        <goto state="paused" />
- 	  </action>
-    </event>
-  </state>
-  <state name="paused">
-    <event>
- 	  <condition>
-        <command name="play" />
- 	  </condition>
- 	  <action>
-        <click x="150" y="380" />
-        <goto state="playing" />
- 	  </action>
-    </event>
-  </state>
+    <seekbar type="simple" />
+    <state name="login">
+        <event>
+            <condition>
+                <frameLoaded />
+            </condition>
+            <action>
+                <run script="var post_url='http://www.teleboy.ch/layer/login.php';var post_data={login:'${username}', password:'${password}', followup: '${url}'};jQuery.post(post_url,post_data);" />
+                <goto state="playing" />
+            </action>
+        </event>
+    </state>
+    <state name="playing">
+        <event>
+            <condition>
+                <command name="pause" />
+            </condition>
+            <action>
+                <move x="150" y="380" />
+                <pause time="400" />
+                <click x="150" y="380" />
+                <goto state="paused" />
+            </action>
+        </event>
+    </state>
+    <state name="paused">
+        <event>
+            <condition>
+                <command name="play" />
+            </condition>
+            <action>
+                <move x="150" y="380" />
+                <pause time="400" />
+                <click x="150" y="380" />
+                <goto state="playing" />
+            </action>
+        </event>
+    </state>
 </site>
