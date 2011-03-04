@@ -3,7 +3,8 @@
       plugin="http://.*\.teleboy\.ch.*player.*\.swf"
       identifier="com.plexapp.plugins.teleboy"
       initialState="login"
-      version="1.0">
+      version="1.0"
+      manualLock="true">
     <seekbar type="simple" />
     <state name="login">
         <event>
@@ -11,7 +12,10 @@
                 <frameLoaded />
             </condition>
             <action>
-                <run script="var post_url='http://www.teleboy.ch/layer/login.php';var post_data={login:'${username}', password:'${password}', followup: '${url}'};jQuery.post(post_url,post_data);" />
+                <run script="var post_url='http://www.teleboy.ch/layer/login.php';var post_data={login:'${username}', password:'${password}'};jQuery.post(post_url,post_data);" />
+                <pause time="100" />
+                <visit url="${url}" />
+                <lockPlugin />
                 <goto state="playing" />
             </action>
         </event>
