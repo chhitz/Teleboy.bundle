@@ -5,7 +5,7 @@
       initialState="login"
       version="1.0"
       manualLock="true">
-    <seekbar type="simple" />
+
     <state name="login">
         <event>
             <condition>
