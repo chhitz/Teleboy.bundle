@@ -50,18 +50,18 @@ def getChannelDetails(lang):
             part = 1
             if i > 2:
                 break
-            summary = channel.findtext('.//span[@class="begintime"]') + " - " + channel.findtext('.//span[@class="endtime"]')
+            summary = str(channel.findtext('.//span[@class="begintime"]')) + " - " + str(channel.findtext('.//span[@class="endtime"]'))
         
         elif part == 1:
             part = 2
-            summary += " - " + channel.findtext('td[@class="title"]') + "\n"
+            summary += " - " + str(channel.findtext('td[@class="title"]')) + "\n"
             thumbElement = channel.find('td[@class="logo"]')
             name = thumbElement.find('img').get('title')
             thumb = thumbElement.find('img').get('src')
         
         elif part == 2:
             part = 0
-            summary += channel.findtext('.//p[@class="info_long"]') if channel.findtext('.//p[@class="info_long"]') else ""
+            summary += str(channel.findtext('.//p[@class="info_long"]'))
             stationId = int(thumb.split('/')[3])
             staticThumb = R("Logos/%d.png" % stationId)
             if staticThumb:
