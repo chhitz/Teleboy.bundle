@@ -74,8 +74,10 @@ def getChannelDetails(lang):
 
 def VideoMainMenu():
     dir = MediaContainer(viewGroup="InfoList")
-    
-    response = HTTP.Request(VIDEO_URL_BASE + "/layer/login.php", values={'login': Prefs['username'], 'password': Prefs['password']})
+
+    # Login
+    response = HTTP.Request(VIDEO_URL_BASE + "/watchlist/")
+    response = HTTP.Request(VIDEO_URL_BASE + "/login_check", values={'login': Prefs['username'], 'password': Prefs['password'], 'x': 3, 'y': 4, 'keep_login': 1, '_target_path': VIDEO_URL_BASE + '/'})
     Log(languagePrefs())
     
     myChannels = list()
