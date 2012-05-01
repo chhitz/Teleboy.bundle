@@ -73,7 +73,7 @@ def getChannelDetails(lang):
     return channels
 
 def VideoMainMenu():
-    dir = MediaContainer(viewGroup="InfoList")
+    dir = MediaContainer(viewGroup="InfoList", noCache=True)
 
     # Login
     response = HTTP.Request(VIDEO_URL_BASE + "/watchlist/")
