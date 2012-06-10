@@ -77,7 +77,7 @@ def VideoMainMenu():
 
     # Login
     response = HTTP.Request(VIDEO_URL_BASE + "/watchlist/")
-    response = HTTP.Request(VIDEO_URL_BASE + "/login_check", values={'login': Prefs['username'], 'password': Prefs['password'], 'x': 3, 'y': 4, 'keep_login': 1, '_target_path': VIDEO_URL_BASE + '/'})
+    response = HTTP.Request(VIDEO_URL_BASE + "/layer/login_check", values={'login': Prefs['username'], 'password': Prefs['password'], 'x': 14, 'y': 7, 'keep_login': 1})
     Log(languagePrefs())
     
     myChannels = list()
