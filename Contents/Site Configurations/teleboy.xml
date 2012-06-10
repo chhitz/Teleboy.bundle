@@ -12,7 +12,7 @@
                 <frameLoaded />
             </condition>
             <action>
-                <run script="var post_url='http://www.teleboy.ch/login_check';var post_data={login:'${username}', password:'${password}', x: 3, y: 4, keep_login: 1, _target_path: 'http://www.teleboy.ch/'};jQuery.post(post_url,post_data);" />
+                <run script="var post_url='http://www.teleboy.ch/layer/login_check';var post_data={login:'${username}', password:'${password}', x: 14, y: 7, keep_login: 1};jQuery.post(post_url,post_data);" />
                 <pause time="500" />
                 <visit url="${url}" />
                 <lockPlugin />
