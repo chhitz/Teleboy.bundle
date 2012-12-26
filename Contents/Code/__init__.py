@@ -48,7 +48,7 @@ def getChannelDetails(lang):
         summary = '\n'.join(map(lambda x: x.text_content(), channel.xpath('td[@class="show"]/*')))
 
         stationId = int(thumb.split('/')[4])
-        staticThumb = R("Logos/%d.png" % stationId)
+        staticThumb = R("%d.png" % stationId)
         if staticThumb:
             thumb = staticThumb
         else:
