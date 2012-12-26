@@ -37,39 +37,23 @@ def languagePrefs():
 
 def getChannelDetails(lang):
     channels = dict()
-    response = HTML.ElementFromURL(VIDEO_URL_BASE + "/tv/player/includes/ajax.php", values={'cmd': 'getStations', 'category': lang})
-    #Log(XML.StringFromElement(response))
-    i=0
-    part = 0
-    summary = ""
-    name = ""
-    thumb = ""
-    for channel in response.xpath('//div[@class="epgdetail_content"]/table/tr'):
-        #Log(XML.StringFromElement(channel))
-        if part == 0:
-            part = 1
-            if i > 2:
-                break
-            summary = str(channel.findtext('.//span[@class="begintime"]')) + " - " + str(channel.findtext('.//span[@class="endtime"]'))
-        
-        elif part == 1:
-            part = 2
-            summary += " - " + str(channel.findtext('td[@class="title"]')) + "\n"
-            thumbElement = channel.find('td[@class="logo"]')
-            name = thumbElement.find('img').get('title')
-            thumb = thumbElement.find('img').get('src')
-        
-        elif part == 2:
-            part = 0
-            summary += str(channel.findtext('.//p[@class="info_long"]'))
-            stationId = int(thumb.split('/')[3])
-            staticThumb = R("Logos/%d.png" % stationId)
-            if staticThumb:
-                thumb = staticThumb
-            else:
-                thumb = VIDEO_URL_BASE + thumb
-                Log("No logo found for station %s (ID: %d)" % (name, stationId))
-            channels[stationId] = (name, thumb, summary)
+    response = HTML.ElementFromURL(VIDEO_URL_BASE + "/programm/?program_date=live")
+    #Log.Debug(HTML.StringFromElement(response))
+
+    for channel in response.xpath('//tr[contains(@class, "playable")]'):
+        Log.Debug(HTML.StringFromElement(channel))
+        thumbElement = channel.find('td[@class="station"]/a')
+        name = thumbElement.find('img').get('title')
+        thumb = thumbElement.find('img').get('src')
+        summary = '\n'.join(map(lambda x: x.text_content(), channel.xpath('td[@class="show"]/*')))
+
+        stationId = int(thumb.split('/')[4])
+        staticThumb = R("Logos/%d.png" % stationId)
+        if staticThumb:
+            thumb = staticThumb
+        else:
+            Log.Debug("No logo found for station %s (ID: %d)" % (name, stationId))
+        channels[stationId] = (name, thumb, summary)
     return channels
 
 def VideoMainMenu():
@@ -78,28 +62,25 @@ def VideoMainMenu():
     # Login
     response = HTTP.Request(VIDEO_URL_BASE + "/watchlist/")
     response = HTTP.Request(VIDEO_URL_BASE + "/layer/login_check", values={'login': Prefs['username'], 'password': Prefs['password'], 'x': 14, 'y': 7, 'keep_login': 1})
-    Log(languagePrefs())
     
     myChannels = list()
     if Prefs['my_channels']:
         response = HTML.ElementFromURL(VIDEO_URL_BASE + "/programm/station/edit.php")
         for channel in response.xpath('//table[@id="mystations_table"]/tbody/tr'):
-            Log(HTML.StringFromElement(channel))
             position = int(channel.findtext('td[@class="station_pos"]'))
             stationId = int(channel.find('td/input').get('value'))
             myChannels.append(stationId)
-        Log(myChannels)
         
         allChannels = getChannelDetails('all')
         for stationId in myChannels:
             try:
-                dir.Append(WebVideoItem(VIDEO_URL_BASE + "/tv/player/player.php?station_id=%d" % stationId, title=allChannels[stationId][0], thumb=allChannels[stationId][1], summary=allChannels[stationId][2]))
+                dir.Append(WebVideoItem(VIDEO_URL_BASE + "/tv/player/player.php?stationId=%d" % stationId, title=allChannels[stationId][0], thumb=allChannels[stationId][1], summary=allChannels[stationId][2]))
             except:
                 pass
     
     for lang in languagePrefs():
         for (stationId, (name, thumb, summary)) in getChannelDetails(lang).items():
-            dir.Append(WebVideoItem(VIDEO_URL_BASE + "/tv/player/player.php?station_id=%d" % stationId, title=name, thumb=thumb, summary=summary))
+            dir.Append(WebVideoItem(VIDEO_URL_BASE + "/tv/player/player.php?stationId=%d" % stationId, title=name, thumb=thumb, summary=summary))
 
     dir.Append(
         PrefsItem(
